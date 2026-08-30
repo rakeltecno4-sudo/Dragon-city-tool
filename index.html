@@ -84,13 +84,36 @@
     SUPABASE_KEY
   );
 
-    function createCode() {
-      const code =
-        Math.floor(100000 + Math.random() * 900000);
+    async function createCode() {
+  const code = Math.floor(100000 + Math.random() * 900000).toString();
 
-      document.getElementById("message").textContent =
-        "Ton code de démonstration : " + code;
-    }
+  const expiresAt = new Date(
+    Date.now() + 10 * 60 * 1000
+  ).toISOString();
+
+  const identifier = "demo";
+
+  const { error } = await supabase
+    .from("login_codes")
+    .insert({
+      code: code,
+      created_at: new Date().toISOString(),
+      status: "active",
+      expires_at: expiresAt,
+      identifier: identifier
+    });
+
+  if (error) {
+    console.error(error);
+    document.getElementById("message").textContent =
+      "Erreur lors de la création du code.";
+    return;
+  }
+
+  document.getElementById("message").textContent =
+    "Ton code : " + code;
+}
+
 
     function login() {
       const code = document.getElementById("code").value.trim();
