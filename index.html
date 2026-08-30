@@ -15,8 +15,8 @@
     }
 
     .container {
-      max-width: 400px;
-      margin: 80px auto;
+      max-width: 500px;
+      margin: 40px auto;
       padding: 25px;
     }
 
@@ -44,20 +44,33 @@
       color: white;
       font-size: 16px;
       font-weight: bold;
+      cursor: pointer;
     }
 
     #message {
       color: #aaa;
+      margin: 15px 0;
+    }
+
+    .dragon {
+      background: #1b2030;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 10px;
+      text-align: left;
+    }
+
+    .dragon h2 {
+      color: #ff4fd8;
+      margin-top: 0;
     }
   </style>
-
- <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 </head>
 
 <body>
 
   <div class="container">
+
     <h1>Dragon City Tool</h1>
 
     <p>Entre ton code de connexion</p>
@@ -73,92 +86,164 @@
     <button onclick="createCode()">Créer un code</button>
 
     <p id="message"></p>
-  <div id="dragons"></div>
+
+    <div id="dragons"></div>
 
   </div>
 
-  <script>
-  const SUPABASE_URL = "https://pnnmnsnrlcawbugvdcrm.supabase.co";
-  const SUPABASE_KEY = "sb_publishable_sbTIqckXExs7cK0bq1pq9g_6Sf27oo3";
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  const supabase = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+  <script>
+
+    // =========================
+    // SUPABASE
+    // =========================
+
+    const SUPABASE_URL = "COLLE_TON_API_URL_ICI";
+
+    const SUPABASE_KEY = "COLLE_TA_PUBLISHABLE_KEY_ICI";
+
+    const supabase = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+
+    // =========================
+    // CREER UN CODE
+    // =========================
 
     async function createCode() {
-  document.getElementById("message").textContent = "Le bouton fonctionne !";
 
-  const code = Math.floor(100000 + Math.random() * 900000).toString();
+      const message = document.getElementById("message");
 
-  const expiresAt = new Date(
-    Date.now() + 10 * 60 * 1000
-  ).toISOString();
+      message.textContent = "Création du code...";
 
-  const identifier = "demo";
+      const code =
+        Math.floor(100000 + Math.random() * 900000).toString();
 
-  const { error } = await supabase
-    .from("login_codes")
-    .insert({
-      code: code,
-      created_at: new Date().toISOString(),
-      status: "active",
-      expires_at: expiresAt,
-      identifier: identifier
-    });
+      const expiresAt =
+        new Date(Date.now() + 10 * 60 * 1000).toISOString();
 
-  if (error) {
-    console.error(error);
-    document.getElementById("message").textContent =
-      "Erreur lors de la création du code.";
-    return;
-  }
+      const identifier = "demo";
 
-  document.getElementById("message").textContent =
-    "Ton code : " + code;
-}
+      const { error } = await supabase
+        .from("login_codes")
+        .insert({
+          code: code,
+          created_at: new Date().toISOString(),
+          status: "active",
+          expires_at: expiresAt,
+          identifier: identifier
+        });
 
+      if (error) {
 
-    function login() {
-      const code = document.getElementById("code").value.trim();
+        console.error(error);
 
-      if (code === "") {
-        document.getElementById("message").textContent =
-          "Entre un code.";
+        message.textContent =
+          "Erreur : " + error.message;
+
         return;
       }
-    async function loadDragons() {
-  const { data, error } = await supabase
-    .from("dragons")
-    .select("*");
 
-  const container = document.getElementById("dragons");
+      message.textContent =
+        "Ton code : " + code;
+    }
 
-  if (error) {
-    container.textContent = "Erreur de chargement.";
-    console.error(error);
-    return;
-  }
 
-  container.innerHTML = data.map(dragon => `
-    <div style="
-      background:#1b2030;
-      padding:15px;
-      margin:10px 0;
-      border-radius:10px;
-    ">
-      <h2>${dragon.name}</h2>
-      <p>Rareté : ${dragon.rarity}</p>
-      <p>Éléments : ${dragon.element1}${dragon.element2 ? " + " + dragon.element2 : ""}${dragon.element3 ? " + " + dragon.element3 : ""}</p>
-    </div>
-  `).join("");
-}
+    // =========================
+    // LOGIN
+    // =========================
 
-loadDragons();
+    function login() {
 
-      document.getElementById("message").textContent =
+      const code =
+        document.getElementById("code").value.trim();
+
+      const message =
+        document.getElementById("message");
+
+      if (code === "") {
+
+        message.textContent =
+          "Entre un code.";
+
+        return;
+      }
+
+      message.textContent =
         "Code reçu. Vérification à venir.";
     }
+
+
+    // =========================
+    // CHARGER LES DRAGONS
+    // =========================
+
+    async function loadDragons() {
+
+      const container =
+        document.getElementById("dragons");
+
+      container.textContent =
+        "Chargement des dragons...";
+
+      const { data, error } =
+        await supabase
+          .from("dragons")
+          .select("*");
+
+      if (error) {
+
+        console.error(error);
+
+        container.textContent =
+          "Erreur : " + error.message;
+
+        return;
+      }
+
+      if (!data || data.length === 0) {
+
+        container.textContent =
+          "Aucun dragon trouvé.";
+
+        return;
+      }
+
+      container.innerHTML =
+        data.map(dragon => `
+
+          <div class="dragon">
+
+            <h2>${dragon.name || "Dragon"}</h2>
+
+            <p>
+              Rareté :
+              ${dragon.rarity || "Non définie"}
+            </p>
+
+            <p>
+              Éléments :
+              ${dragon.element1 || ""}
+              ${dragon.element2 ? " + " + dragon.element2 : ""}
+              ${dragon.element3 ? " + " + dragon.element3 : ""}
+            </p>
+
+          </div>
+
+        `).join("");
+    }
+
+
+    // =========================
+    // DEMARRAGE
+    // =========================
+
+    loadDragons();
+
   </script>
 
 </body>
