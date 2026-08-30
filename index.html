@@ -15,23 +15,13 @@
     }
 
     .container {
-      max-width: 500px;
-      margin: 40px auto;
+      max-width: 400px;
+      margin: 80px auto;
       padding: 25px;
     }
 
     h1 {
       color: #ff4fd8;
-    }
-
-    input {
-      width: 100%;
-      box-sizing: border-box;
-      padding: 15px;
-      margin: 10px 0;
-      border-radius: 10px;
-      border: none;
-      font-size: 16px;
     }
 
     button {
@@ -44,25 +34,10 @@
       color: white;
       font-size: 16px;
       font-weight: bold;
-      cursor: pointer;
     }
 
     #message {
       color: #aaa;
-      margin: 15px 0;
-    }
-
-    .dragon {
-      background: #1b2030;
-      padding: 15px;
-      margin: 10px 0;
-      border-radius: 10px;
-      text-align: left;
-    }
-
-    .dragon h2 {
-      color: #ff4fd8;
-      margin-top: 0;
     }
   </style>
 </head>
@@ -83,171 +58,23 @@
 
     <button onclick="login()">Se connecter</button>
 
-   <button id="createCodeButton">Créer un code</button>
-
-
-
+    <button onclick="createCode()">Créer un code</button>
 
     <p id="message"></p>
 
-    <div id="dragons"></div>
-
   </div>
 
-  <!-- Supabase -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
   <script>
-    document.getElementById("message").textContent = "JavaScript fonctionne !";
 
-    // =========================
-    // SUPABASE
-    // =========================
-
-    const SUPABASE_URL = "https://pnnmnsnrlcawbugvdcrm.supabase.co";
-
-    const SUPABASE_KEY = "sb_publishable_sbTIqckXExs7cK0bq1pq9g_6Sf27oo3";
-
-    const supabase = window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY
-    );
-
-
-    // =========================
-    // CREER UN CODE
-    // =========================
-
-    async function createCode() {
-
-      const message = document.getElementById("message");
-
-      message.textContent = "Création du code...";
-
-      const code =
-        Math.floor(100000 + Math.random() * 900000).toString();
-
-      const expiresAt =
-        new Date(Date.now() + 10 * 60 * 1000).toISOString();
-
-      const identifier = "demo";
-
-      const { error } = await supabase
-        .from("login_codes")
-        .insert({
-          code: code,
-          created_at: new Date().toISOString(),
-          status: "active",
-          expires_at: expiresAt,
-          identifier: identifier
-        });
-
-      if (error) {
-
-        console.error(error);
-
-        message.textContent =
-          "Erreur : " + error.message;
-
-        return;
-      }
-
-      message.textContent =
-        "Ton code : " + code;
+    function createCode() {
+      document.getElementById("message").textContent =
+        "JavaScript fonctionne !";
     }
-
-
-    // =========================
-    // LOGIN
-    // =========================
 
     function login() {
-
-      const code =
-        document.getElementById("code").value.trim();
-
-      const message =
-        document.getElementById("message");
-
-      if (code === "") {
-
-        message.textContent =
-          "Entre un code.";
-
-        return;
-      }
-
-      message.textContent =
-        "Code reçu. Vérification à venir.";
+      document.getElementById("message").textContent =
+        "Login fonctionne !";
     }
-
-
-    // =========================
-    // CHARGER LES DRAGONS
-    // =========================
-
-    async function loadDragons() {
-
-      const container =
-        document.getElementById("dragons");
-
-      container.textContent =
-        "Chargement des dragons...";
-
-      const { data, error } =
-        await supabase
-          .from("dragons")
-          .select("*");
-
-      if (error) {
-
-        console.error(error);
-
-        container.textContent =
-          "Erreur : " + error.message;
-
-        return;
-      }
-
-      if (!data || data.length === 0) {
-
-        container.textContent =
-          "Aucun dragon trouvé.";
-
-        return;
-      }
-
-      container.innerHTML =
-        data.map(dragon => `
-
-          <div class="dragon">
-
-            <h2>${dragon.name || "Dragon"}</h2>
-
-            <p>
-              Rareté :
-              ${dragon.rarity || "Non définie"}
-            </p>
-
-            <p>
-              Éléments :
-              ${dragon.element1 || ""}
-              ${dragon.element2 ? " + " + dragon.element2 : ""}
-              ${dragon.element3 ? " + " + dragon.element3 : ""}
-            </p>
-
-          </div>
-
-        `).join("");
-    }
-
-
-    // =========================
-    // DEMARRAGE
-    // =========================
-
-    loadDragons();
-document.getElementById("createCodeButton").addEventListener("click", createCode);
 
   </script>
 
