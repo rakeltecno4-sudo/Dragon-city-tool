@@ -24,6 +24,16 @@
       color: #ff4fd8;
     }
 
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 10px;
+      border: none;
+      font-size: 16px;
+    }
+
     button {
       width: 100%;
       padding: 15px;
@@ -38,6 +48,7 @@
 
     #message {
       color: #aaa;
+      margin-top: 15px;
     }
   </style>
 </head>
@@ -64,16 +75,60 @@
 
   </div>
 
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <script>
 
+    // =========================
+    // SUPABASE
+    // =========================
+
+    const SUPABASE_URL = "https://pnnmnsnrlcawbugvdcrm.supabase.co";
+
+    const SUPABASE_KEY = "sb_publishable_sbTIqckXExs7cK0bq1pq9g_6Sf27oo3";
+
+    const supabase = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+
+    // =========================
+    // TEST
+    // =========================
+
     function createCode() {
+
       document.getElementById("message").textContent =
         "JavaScript fonctionne !";
+
     }
 
+
+    // =========================
+    // LOGIN
+    // =========================
+
     function login() {
-      document.getElementById("message").textContent =
-        "Login fonctionne !";
+
+      const code =
+        document.getElementById("code").value.trim();
+
+      const message =
+        document.getElementById("message");
+
+      if (code === "") {
+
+        message.textContent =
+          "Entre un code.";
+
+        return;
+      }
+
+      message.textContent =
+        "Code reçu. Vérification à venir.";
+
     }
 
   </script>
