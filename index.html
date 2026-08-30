@@ -83,7 +83,8 @@
 
     <button onclick="login()">Se connecter</button>
 
-    <button onclick="createCode()">Créer un code</button>
+   <button id="createCodeButton">Créer un code</button>
+
 
 
 
@@ -245,6 +246,7 @@
     // =========================
 
     loadDragons();
+document.getElementById("createCodeButton").addEventListener("click", createCode);
 
   </script>
 
