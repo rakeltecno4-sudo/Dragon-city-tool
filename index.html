@@ -1,862 +1,460 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>NullZerepTool</title>
-  <meta name="description" content="Une collection d'outils simples, rapides et gratuits.">
+    <title>DragonCity Tools</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    :root {
-      --bg: #08080c;
-      --card: #111118;
-      --card-hover: #171720;
-      --border: #242431;
-      --text: #ffffff;
-      --muted: #9999a8;
-      --primary: #7c5cff;
-      --primary-hover: #6948f5;
-      --danger: #ff4d67;
-      --success: #36d399;
-    }
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at top, #17172a 0%, #090910 45%, #050507 100%);
+            color: #fff;
+            font-family: Arial, Helvetica, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
 
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-    }
+        .container {
+            width: 100%;
+            max-width: 560px;
+            text-align: center;
+        }
 
-    /* NAVBAR */
+        .logo {
+            font-size: 34px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            letter-spacing: -1px;
+        }
 
-    nav {
-      width: 100%;
-      height: 70px;
-      border-bottom: 1px solid var(--border);
-      background: rgba(8, 8, 12, 0.92);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 6%;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(12px);
-    }
+        .logo span {
+            color: #8b5cf6;
+        }
 
-    .logo {
-      font-size: 21px;
-      font-weight: 800;
-      color: white;
-      text-decoration: none;
-    }
+        .subtitle {
+            color: #8f8f9d;
+            font-size: 14px;
+            margin-bottom: 35px;
+        }
 
-    .logo span {
-      color: var(--primary);
-    }
+        .card {
+            background: rgba(17, 17, 25, 0.95);
+            border: 1px solid #292936;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.45),
+                0 0 40px rgba(124, 92, 246, 0.04);
+        }
 
-    .nav-links {
-      display: flex;
-      gap: 25px;
-      align-items: center;
-    }
+        .title {
+            font-size: 27px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
 
-    .nav-links a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 14px;
-      transition: 0.2s;
-    }
+        .description {
+            color: #90909e;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
 
-    .nav-links a:hover {
-      color: white;
-    }
+        .input {
+            width: 100%;
+            height: 50px;
+            background: #09090e;
+            border: 1px solid #30303d;
+            border-radius: 10px;
+            color: #fff;
+            outline: none;
+            padding: 0 16px;
+            font-size: 15px;
+            text-align: center;
+            transition: 0.2s;
+        }
 
-    .login-btn {
-      background: var(--primary);
-      color: white !important;
-      padding: 10px 17px;
-      border-radius: 9px;
-      font-weight: 600;
-    }
+        .input::placeholder {
+            color: #666673;
+        }
 
-    .login-btn:hover {
-      background: var(--primary-hover);
-    }
+        .input:focus {
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.12);
+        }
 
-    /* HERO */
+        .connect {
+            width: 100%;
+            height: 50px;
+            margin-top: 13px;
+            border: 0;
+            border-radius: 10px;
+            background: linear-gradient(
+                135deg,
+                #8b5cf6,
+                #6d4aff
+            );
+            color: #fff;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+        }
 
-    .hero {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 100px 20px 70px;
-      text-align: center;
-    }
+        .connect:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.08);
+        }
 
-    .badge {
-      display: inline-block;
-      background: rgba(124, 92, 255, 0.12);
-      border: 1px solid rgba(124, 92, 255, 0.3);
-      color: #b9aaff;
-      padding: 8px 14px;
-      border-radius: 999px;
-      font-size: 13px;
-      margin-bottom: 22px;
-    }
+        .connect:disabled {
+            opacity: 0.65;
+            cursor: wait;
+            transform: none;
+        }
 
-    .hero h1 {
-      font-size: clamp(42px, 7vw, 72px);
-      line-height: 1;
-      letter-spacing: -3px;
-      margin-bottom: 25px;
-    }
+        .message {
+            display: none;
+            margin-top: 18px;
+            padding: 13px;
+            border-radius: 9px;
+            font-size: 14px;
+        }
 
-    .hero h1 span {
-      color: var(--primary);
-    }
+        .message.loading {
+            display: block;
+            background: rgba(139, 92, 246, 0.10);
+            border: 1px solid rgba(139, 92, 246, 0.25);
+            color: #bcaaff;
+        }
 
-    .hero p {
-      max-width: 650px;
-      margin: auto;
-      color: var(--muted);
-      font-size: 18px;
-      line-height: 1.6;
-    }
+        .message.success {
+            display: block;
+            background: rgba(34, 197, 94, 0.10);
+            border: 1px solid rgba(34, 197, 94, 0.25);
+            color: #6ee7a0;
+        }
 
-    /* BUTTONS */
+        .message.error {
+            display: block;
+            background: rgba(239, 68, 68, 0.10);
+            border: 1px solid rgba(239, 68, 68, 0.25);
+            color: #ff8b8b;
+        }
 
-    .hero-buttons {
-      margin-top: 35px;
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
+        .links {
+            margin-top: 28px;
+            display: flex;
+            justify-content: center;
+            gap: 22px;
+            flex-wrap: wrap;
+        }
 
-    .btn {
-      border: none;
-      cursor: pointer;
-      padding: 13px 21px;
-      border-radius: 10px;
-      font-size: 15px;
-      font-weight: 600;
-      transition: 0.2s;
-    }
+        .links a {
+            color: #9999a8;
+            text-decoration: none;
+            font-size: 13px;
+            transition: 0.2s;
+        }
 
-    .btn-primary {
-      background: var(--primary);
-      color: white;
-    }
+        .links a:hover {
+            color: #a78bfa;
+        }
 
-    .btn-primary:hover {
-      background: var(--primary-hover);
-      transform: translateY(-1px);
-    }
+        footer {
+            margin-top: 25px;
+            color: #60606d;
+            font-size: 12px;
+            line-height: 1.7;
+        }
 
-    .btn-secondary {
-      background: #15151d;
-      border: 1px solid var(--border);
-      color: white;
-    }
+        .modal-background {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.72);
+            backdrop-filter: blur(5px);
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            z-index: 100;
+        }
 
-    .btn-secondary:hover {
-      background: #1d1d27;
-    }
+        .modal-background.show {
+            display: flex;
+        }
 
-    /* TOOLS */
+        .modal {
+            width: 100%;
+            max-width: 400px;
+            background: #111118;
+            border: 1px solid #292936;
+            border-radius: 15px;
+            padding: 28px;
+            text-align: center;
+        }
 
-    .section {
-      max-width: 1100px;
-      margin: auto;
-      padding: 30px 20px 90px;
-    }
+        .spinner {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 3px solid #292936;
+            border-top-color: #8b5cf6;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 18px;
+        }
 
-    .section-title {
-      text-align: center;
-      margin-bottom: 35px;
-    }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
 
-    .section-title h2 {
-      font-size: 30px;
-      margin-bottom: 8px;
-    }
+        .modal h3 {
+            margin-bottom: 8px;
+        }
 
-    .section-title p {
-      color: var(--muted);
-    }
+        .modal p {
+            color: #90909e;
+            font-size: 14px;
+        }
 
-    .tools-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 17px;
-    }
+        .close {
+            margin-top: 20px;
+            border: 1px solid #30303d;
+            background: transparent;
+            color: #aaa;
+            padding: 9px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
 
-    .tool-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 15px;
-      padding: 25px;
-      transition: 0.2s;
-    }
+        @media (max-width: 500px) {
+            .card {
+                padding: 23px 18px;
+            }
 
-    .tool-card:hover {
-      transform: translateY(-3px);
-      background: var(--card-hover);
-      border-color: #343445;
-    }
+            .logo {
+                font-size: 28px;
+            }
 
-    .tool-icon {
-      width: 45px;
-      height: 45px;
-      border-radius: 11px;
-      background: rgba(124, 92, 255, 0.13);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 21px;
-      margin-bottom: 18px;
-    }
-
-    .tool-card h3 {
-      margin-bottom: 9px;
-      font-size: 18px;
-    }
-
-    .tool-card p {
-      color: var(--muted);
-      line-height: 1.5;
-      font-size: 14px;
-      margin-bottom: 18px;
-    }
-
-    .tool-card button {
-      width: 100%;
-    }
-
-    /* TOOL PANEL */
-
-    .tool-panel {
-      display: none;
-      max-width: 700px;
-      margin: 40px auto 0;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 15px;
-      padding: 25px;
-    }
-
-    .tool-panel.active {
-      display: block;
-    }
-
-    .tool-panel h3 {
-      margin-bottom: 8px;
-    }
-
-    .tool-panel > p {
-      color: var(--muted);
-      margin-bottom: 20px;
-    }
-
-    textarea,
-    input {
-      width: 100%;
-      background: #09090e;
-      color: white;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 14px;
-      outline: none;
-      font-size: 14px;
-      margin-bottom: 12px;
-    }
-
-    textarea {
-      min-height: 150px;
-      resize: vertical;
-    }
-
-    textarea:focus,
-    input:focus {
-      border-color: var(--primary);
-    }
-
-    .result {
-      display: none;
-      background: #09090e;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 15px;
-      margin-top: 15px;
-      color: #ddd;
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
-
-    .result.show {
-      display: block;
-    }
-
-    .close-btn {
-      float: right;
-      background: transparent;
-      border: none;
-      color: var(--muted);
-      font-size: 20px;
-      cursor: pointer;
-    }
-
-    /* STATUS */
-
-    .status {
-      max-width: 1100px;
-      margin: 0 auto 40px;
-      padding: 0 20px;
-    }
-
-    .status-box {
-      border: 1px solid var(--border);
-      background: var(--card);
-      padding: 15px 18px;
-      border-radius: 11px;
-      color: var(--muted);
-      font-size: 13px;
-      text-align: center;
-    }
-
-    .status-dot {
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      background: var(--success);
-      border-radius: 50%;
-      margin-right: 7px;
-    }
-
-    /* FOOTER */
-
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 30px 20px;
-      text-align: center;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    /* MOBILE */
-
-    @media (max-width: 800px) {
-      .tools-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .nav-links {
-        gap: 12px;
-      }
-
-      .nav-links a:not(.login-btn) {
-        display: none;
-      }
-    }
-
-    @media (max-width: 550px) {
-      nav {
-        padding: 0 20px;
-      }
-
-      .tools-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .hero {
-        padding-top: 70px;
-      }
-
-      .hero h1 {
-        letter-spacing: -2px;
-      }
-    }
-  </style>
+            .title {
+                font-size: 23px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-  <!-- NAVIGATION -->
+<div class="container">
 
-  <nav>
-    <a href="#" class="logo">Null<span>Zerep</span>Tool</a>
-
-    <div class="nav-links">
-      <a href="#accueil">Accueil</a>
-      <a href="#outils">Outils</a>
-      <a href="#apropos">À propos</a>
-      <a href="#" class="login-btn" onclick="login()">Connexion</a>
-    </div>
-  </nav>
-
-
-  <!-- HERO -->
-
-  <main id="accueil">
-
-    <section class="hero">
-
-      <div class="badge">
-        ✨ Simple · Rapide · Gratuit
-      </div>
-
-      <h1>
-        Tes outils.<br>
-        <span>Au même endroit.</span>
-      </h1>
-
-      <p>
-        Une plateforme simple pour utiliser différents outils
-        directement depuis ton navigateur.
-      </p>
-
-      <div class="hero-buttons">
-        <button class="btn btn-primary" onclick="scrollToTools()">
-          Découvrir les outils
-        </button>
-
-        <button class="btn btn-secondary" onclick="showAbout()">
-          En savoir plus
-        </button>
-      </div>
-
-    </section>
-
-
-    <!-- STATUS -->
-
-    <div class="status">
-      <div class="status-box">
-        <span class="status-dot"></span>
-        Tous les systèmes fonctionnent normalement
-      </div>
+    <div class="logo">
+        Null<span>Zerep</span>Tool
     </div>
 
+    <div class="subtitle">
+        Secure • Fast • Mobile Friendly
+    </div>
 
-    <!-- TOOLS -->
+    <div class="card">
 
-    <section class="section" id="outils">
-
-      <div class="section-title">
-        <h2>Nos outils</h2>
-        <p>Choisis un outil pour commencer.</p>
-      </div>
-
-      <div class="tools-grid">
-
-        <div class="tool-card">
-          <div class="tool-icon">🔐</div>
-          <h3>Générateur</h3>
-          <p>
-            Génère rapidement une chaîne aléatoire sécurisée.
-          </p>
-
-          <button
-            class="btn btn-primary"
-            onclick="openTool('generator')">
-            Ouvrir
-          </button>
+        <div class="title">
+            DragonCity Tools
         </div>
 
-
-        <div class="tool-card">
-          <div class="tool-icon">📝</div>
-          <h3>Compteur</h3>
-          <p>
-            Compte les caractères et les mots d'un texte.
-          </p>
-
-          <button
-            class="btn btn-primary"
-            onclick="openTool('counter')">
-            Ouvrir
-          </button>
+        <div class="description">
+            Enter your access code below to connect your
+            Dragon City information.
         </div>
-
-
-        <div class="tool-card">
-          <div class="tool-icon">🔤</div>
-          <h3>Convertisseur</h3>
-          <p>
-            Convertis facilement ton texte en différents formats.
-          </p>
-
-          <button
-            class="btn btn-primary"
-            onclick="openTool('converter')">
-            Ouvrir
-          </button>
-        </div>
-
-      </div>
-
-
-      <!-- GENERATOR -->
-
-      <div class="tool-panel" id="generator">
-
-        <button class="close-btn" onclick="closeTools()">×</button>
-
-        <h3>🔐 Générateur</h3>
-
-        <p>
-          Génère une chaîne aléatoire.
-        </p>
 
         <input
-          type="number"
-          id="length"
-          value="16"
-          min="4"
-          max="128"
-          placeholder="Longueur">
+            id="loginCode"
+            class="input"
+            type="text"
+            placeholder="Login Code"
+            autocomplete="off"
+        >
 
         <button
-          class="btn btn-primary"
-          onclick="generateRandom()">
-          Générer
+            id="connectButton"
+            class="connect"
+            onclick="connect()"
+        >
+            Connect My Dragon City Information
         </button>
 
-        <div class="result" id="generatorResult"></div>
+        <div id="message" class="message"></div>
 
-      </div>
+        <div class="links">
+            <a href="#" onclick="createCode(event)">
+                Create Code
+            </a>
 
+            <a href="#" onclick="userGuide(event)">
+                User Guide
+            </a>
 
-      <!-- COUNTER -->
-
-      <div class="tool-panel" id="counter">
-
-        <button class="close-btn" onclick="closeTools()">×</button>
-
-        <h3>📝 Compteur de texte</h3>
-
-        <p>
-          Écris ton texte ci-dessous.
-        </p>
-
-        <textarea
-          id="counterText"
-          placeholder="Écris quelque chose..."></textarea>
-
-        <button
-          class="btn btn-primary"
-          onclick="countText()">
-          Compter
-        </button>
-
-        <div class="result" id="counterResult"></div>
-
-      </div>
-
-
-      <!-- CONVERTER -->
-
-      <div class="tool-panel" id="converter">
-
-        <button class="close-btn" onclick="closeTools()">×</button>
-
-        <h3>🔤 Convertisseur</h3>
-
-        <p>
-          Transforme ton texte.
-        </p>
-
-        <textarea
-          id="convertText"
-          placeholder="Ton texte..."></textarea>
-
-        <div style="display:flex; gap:10px; flex-wrap:wrap;">
-
-          <button
-            class="btn btn-primary"
-            onclick="convertUpper()">
-            MAJUSCULES
-          </button>
-
-          <button
-            class="btn btn-secondary"
-            onclick="convertLower()">
-            minuscules
-          </button>
-
-          <button
-            class="btn btn-secondary"
-            onclick="copyConverted()">
-            Copier
-          </button>
-
+            <a href="#" onclick="videoTutorial(event)">
+                Video Tutorial
+            </a>
         </div>
 
-        <div class="result" id="converterResult"></div>
+    </div>
 
-      </div>
+    <footer>
+        © 2026 NullVina Team. All rights reserved.<br>
+        This website is not affiliated with Dragon City or SocialPoint SL.
+    </footer>
 
-    </section>
+</div>
 
 
-    <!-- ABOUT -->
+<!-- CONNECTING MODAL -->
 
-    <section class="section" id="apropos">
+<div id="modalBackground" class="modal-background">
 
-      <div class="section-title">
-        <h2>À propos</h2>
+    <div class="modal">
+
+        <div class="spinner"></div>
+
+        <h3>Connecting...</h3>
 
         <p>
-          NullZerepTool est une plateforme expérimentale
-          regroupant plusieurs outils utiles au même endroit.
+            Please wait while your information is being verified.
         </p>
-      </div>
 
-    </section>
+        <button
+            class="close"
+            onclick="closeModal()"
+        >
+            Cancel
+        </button>
 
-  </main>
+    </div>
+
+</div>
 
 
-  <!-- FOOTER -->
+<script>
 
-  <footer>
-    © 2026 NullZerepTool — Tous droits réservés.
-  </footer>
+    function connect() {
 
+        const code =
+            document.getElementById("loginCode").value.trim();
 
-  <!-- JAVASCRIPT -->
+        const button =
+            document.getElementById("connectButton");
 
-  <script>
+        const message =
+            document.getElementById("message");
 
-    // Scroll vers les outils
+        if (!code) {
 
-    function scrollToTools() {
-      document
-        .getElementById("outils")
-        .scrollIntoView({
-          behavior: "smooth"
-        });
+            message.className = "message error";
+
+            message.textContent =
+                "Please enter your Login Code.";
+
+            return;
+        }
+
+        message.className = "message";
+        message.textContent = "";
+
+        button.disabled = true;
+
+        document
+            .getElementById("modalBackground")
+            .classList.add("show");
+
+        /*
+         * SUPABASE SERA AJOUTÉ ICI.
+         *
+         * Pour le moment cette version ne fait
+         * aucune connexion externe.
+         */
+
+        setTimeout(function () {
+
+            document
+                .getElementById("modalBackground")
+                .classList.remove("show");
+
+            button.disabled = false;
+
+            message.className = "message success";
+
+            message.textContent =
+                "Interface prête. La vérification Supabase sera connectée à cette étape.";
+
+        }, 1500);
     }
 
 
-    // Ouvrir un outil
+    function closeModal() {
 
-    function openTool(tool) {
+        document
+            .getElementById("modalBackground")
+            .classList.remove("show");
 
-      closeTools();
-
-      const element = document.getElementById(tool);
-
-      if (element) {
-
-        element.classList.add("active");
-
-        setTimeout(() => {
-
-          element.scrollIntoView({
-            behavior: "smooth",
-            block: "center"
-          });
-
-        }, 100);
-
-      }
-
+        document
+            .getElementById("connectButton")
+            .disabled = false;
     }
 
 
-    // Fermer les outils
+    function createCode(event) {
 
-    function closeTools() {
+        event.preventDefault();
 
-      document
-        .querySelectorAll(".tool-panel")
-        .forEach(panel => {
-          panel.classList.remove("active");
-        });
-
-    }
-
-
-    // Générateur
-
-    function generateRandom() {
-
-      const length =
-        parseInt(
-          document.getElementById("length").value
+        alert(
+            "La page Create Code sera ajoutée ensuite."
         );
-
-      const characters =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
-        "abcdefghijklmnopqrstuvwxyz" +
-        "0123456789" +
-        "!@#$%^&*()_+-=";
-
-      let result = "";
-
-      for (let i = 0; i < length; i++) {
-
-        result +=
-          characters.charAt(
-            Math.floor(
-              Math.random() * characters.length
-            )
-          );
-
-      }
-
-      const box =
-        document.getElementById("generatorResult");
-
-      box.textContent = result;
-
-      box.classList.add("show");
-
     }
 
 
-    // Compteur
+    function userGuide(event) {
 
-    function countText() {
+        event.preventDefault();
 
-      const text =
-        document.getElementById("counterText").value;
-
-      const characters =
-        text.length;
-
-      const words =
-        text.trim()
-          ? text.trim().split(/\s+/).length
-          : 0;
-
-      const lines =
-        text
-          ? text.split("\n").length
-          : 0;
-
-      const result =
-        "Caractères : " + characters +
-        "\nMots : " + words +
-        "\nLignes : " + lines;
-
-      const box =
-        document.getElementById("counterResult");
-
-      box.textContent = result;
-
-      box.classList.add("show");
-
+        alert(
+            "Le guide utilisateur sera ajouté ensuite."
+        );
     }
 
 
-    // Convertisseur majuscules
+    function videoTutorial(event) {
 
-    function convertUpper() {
+        event.preventDefault();
 
-      const text =
-        document.getElementById("convertText").value;
-
-      const result =
-        text.toUpperCase();
-
-      showConverterResult(result);
-
+        alert(
+            "Le tutoriel vidéo sera ajouté ensuite."
+        );
     }
 
 
-    // Convertisseur minuscules
+    document
+        .getElementById("loginCode")
+        .addEventListener("keydown", function(event) {
 
-    function convertLower() {
-
-      const text =
-        document.getElementById("convertText").value;
-
-      const result =
-        text.toLowerCase();
-
-      showConverterResult(result);
-
-    }
-
-
-    // Affichage convertisseur
-
-    function showConverterResult(text) {
-
-      const box =
-        document.getElementById("converterResult");
-
-      box.textContent = text;
-
-      box.classList.add("show");
-
-    }
-
-
-    // Copier
-
-    function copyConverted() {
-
-      const box =
-        document.getElementById("converterResult");
-
-      if (!box.textContent) {
-
-        alert("Il n'y a rien à copier.");
-
-        return;
-
-      }
-
-      navigator.clipboard
-        .writeText(box.textContent)
-        .then(() => {
-
-          alert("Texte copié !");
-
-        })
-        .catch(() => {
-
-          alert("Impossible de copier automatiquement.");
+            if (event.key === "Enter") {
+                connect();
+            }
 
         });
 
-    }
-
-
-    // Connexion temporaire
-
-    function login() {
-
-      alert(
-        "La connexion sera activée lorsque Supabase sera connecté."
-      );
-
-    }
-
-
-    // À propos
-
-    function showAbout() {
-
-      document
-        .getElementById("apropos")
-        .scrollIntoView({
-          behavior: "smooth"
-        });
-
-    }
-
-  </script>
+</script>
 
 </body>
 </html>
