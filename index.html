@@ -84,14 +84,14 @@
     // SUPABASE
     // =========================
 
-    const SUPABASE_URL = "https://pnnmnsnrlcawbugvdcrm.supabase.co";
+    if (!window.supabase) {
+  document.getElementById("message").textContent =
+    "Erreur : Supabase ne s'est pas chargé.";
+} else {
+  document.getElementById("message").textContent =
+    "Supabase est chargé !";
+}
 
-    const SUPABASE_KEY = "sb_publishable_sbTIqckXExs7cK0bq1pq9g_6Sf27oo3";
-
-    const supabase = window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY
-    );
 
 
     // =========================
