@@ -50,6 +50,9 @@
       color: #aaa;
     }
   </style>
+
+ <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 </head>
 
 <body>
@@ -73,6 +76,14 @@
   </div>
 
   <script>
+  const SUPABASE_URL = "https://pnnmnsnrlcawbugvdcrm.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_sbTIqckXExs7cK0bq1pq9g_6Sf27oo3";
+
+  const supabase = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
     function createCode() {
       const code =
         Math.floor(100000 + Math.random() * 900000);
