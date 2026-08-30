@@ -73,6 +73,8 @@
     <button onclick="createCode()">Créer un code</button>
 
     <p id="message"></p>
+  <div id="dragons"></div>
+
   </div>
 
   <script>
@@ -123,6 +125,34 @@
           "Entre un code.";
         return;
       }
+    async function loadDragons() {
+  const { data, error } = await supabase
+    .from("dragons")
+    .select("*");
+
+  const container = document.getElementById("dragons");
+
+  if (error) {
+    container.textContent = "Erreur de chargement.";
+    console.error(error);
+    return;
+  }
+
+  container.innerHTML = data.map(dragon => `
+    <div style="
+      background:#1b2030;
+      padding:15px;
+      margin:10px 0;
+      border-radius:10px;
+    ">
+      <h2>${dragon.name}</h2>
+      <p>Rareté : ${dragon.rarity}</p>
+      <p>Éléments : ${dragon.element1}${dragon.element2 ? " + " + dragon.element2 : ""}${dragon.element3 ? " + " + dragon.element3 : ""}</p>
+    </div>
+  `).join("");
+}
+
+loadDragons();
 
       document.getElementById("message").textContent =
         "Code reçu. Vérification à venir.";
