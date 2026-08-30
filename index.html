@@ -16,8 +16,8 @@
 
     .container {
       max-width: 400px;
-      margin: 100px auto;
-      padding: 30px;
+      margin: 80px auto;
+      padding: 25px;
     }
 
     h1 {
@@ -28,20 +28,26 @@
       width: 100%;
       box-sizing: border-box;
       padding: 15px;
-      margin: 15px 0;
+      margin: 10px 0;
       border-radius: 10px;
       border: none;
+      font-size: 16px;
     }
 
     button {
       width: 100%;
       padding: 15px;
+      margin: 8px 0;
       border: none;
       border-radius: 10px;
       background: #ff4fd8;
       color: white;
       font-size: 16px;
       font-weight: bold;
+    }
+
+    #message {
+      color: #aaa;
     }
   </style>
 </head>
@@ -59,25 +65,33 @@
       placeholder="Login Code"
     >
 
-    <button onclick="login()">
-      Se connecter
-    </button>
+    <button onclick="login()">Se connecter</button>
+
+    <button onclick="createCode()">Créer un code</button>
 
     <p id="message"></p>
   </div>
 
   <script>
-    function login() {
-      const code = document.getElementById("code").value;
+    function createCode() {
+      const code =
+        Math.floor(100000 + Math.random() * 900000);
 
-      if (code.trim() === "") {
+      document.getElementById("message").textContent =
+        "Ton code de démonstration : " + code;
+    }
+
+    function login() {
+      const code = document.getElementById("code").value.trim();
+
+      if (code === "") {
         document.getElementById("message").textContent =
           "Entre un code.";
         return;
       }
 
       document.getElementById("message").textContent =
-        "Code reçu. Le système de vérification sera ajouté ensuite.";
+        "Code reçu. Vérification à venir.";
     }
   </script>
 
